@@ -1,0 +1,37 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline'; script-src 'self'">
+<title>SyncWatch</title>
+<style>
+  :root { color-scheme: dark; --bg:#14151a; --panel:#1d1f27; --fg:#e8e9ee; --mut:#8b8fa0; --acc:#ff5d8f; }
+  * { box-sizing: border-box; }
+  body { margin:0; height:96px; background:var(--bg); color:var(--fg); font:13px system-ui,sans-serif; overflow:hidden; user-select:none; }
+  .row { display:flex; gap:6px; padding:6px 8px; align-items:center; }
+  input { background:var(--panel); border:1px solid #2c2f3a; color:var(--fg); border-radius:6px; padding:6px 8px; font:inherit; min-width:0; }
+  input:focus { outline:1px solid var(--acc); }
+  button { background:var(--panel); border:1px solid #2c2f3a; color:var(--fg); border-radius:6px; padding:6px 10px; font:inherit; cursor:pointer; }
+  button:hover { border-color:var(--acc); }
+  button.primary { background:var(--acc); border-color:var(--acc); color:#fff; font-weight:600; }
+  #url { flex:1; }
+  #dot { width:10px; height:10px; border-radius:50%; background:#666; flex:none; }
+  #dot.connected { background:#3ddc84; } #dot.connecting,#dot.reconnecting { background:#f5b942; }
+  #status { color:var(--mut); white-space:nowrap; }
+  #toast { position:fixed; right:10px; top:6px; background:var(--acc); color:#fff; padding:6px 10px; border-radius:6px; display:none; }
+  .quick button { padding:4px 8px; color:var(--mut); }
+</style></head>
+<body>
+  <div class="row">
+    <span id="dot"></span><span id="status">Not connected</span>
+    <input id="server" placeholder="Relay server (wss://…)" size="26">
+    <input id="room" placeholder="Room code" size="12">
+    <input id="name" placeholder="Your name" size="9">
+    <button id="connect" class="primary">Connect</button>
+  </div>
+  <div class="row">
+    <button id="back">◀</button><button id="fwd">▶</button><button id="reload">⟳</button>
+    <input id="url" placeholder="Paste any video / movie / song page and press Enter — your partner's screen follows">
+    <button id="go" class="primary">Go</button>
+  </div>
+  <div id="toast"></div>
+  <script src="shell.js"></script>
+</body></html>

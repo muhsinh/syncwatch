@@ -1,0 +1,4 @@
+node_modules/
+dist/
+test/fixtures/*.webm
+test/fixtures/*.mp3

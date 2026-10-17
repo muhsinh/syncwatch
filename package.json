@@ -1,0 +1,45 @@
+{
+  "name": "syncwatch",
+  "version": "0.1.0",
+  "description": "Watch anything together: synced playback of any web video/audio between two people.",
+  "main": "desktop/main.js",
+  "license": "MIT",
+  "scripts": {
+    "server": "node server/server.js",
+    "desktop": "electron desktop/main.js",
+    "test": "node --test test/*.test.js",
+    "test:e2e": "xvfb-run -a node --test --test-concurrency=1 test/e2e/*.test.js",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8",
+    "playwright-core": "^1.49.0"
+  },
+  "build": {
+    "appId": "app.syncwatch.desktop",
+    "productName": "SyncWatch",
+    "files": [
+      "desktop/**",
+      "shared/**",
+      "package.json",
+      "node_modules/ws/**"
+    ],
+    "mac": {
+      "category": "public.app-category.entertainment"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "AudioVideo"
+    }
+  }
+}
