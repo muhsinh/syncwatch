@@ -29,7 +29,10 @@
       "node_modules/ws/**"
     ],
     "mac": {
-      "category": "public.app-category.entertainment"
+      "category": "public.app-category.entertainment",
+      "target": "dmg",
+      "identity": "-",
+      "artifactName": "SyncWatch-${version}-${arch}.${ext}"
     },
     "win": {
       "target": "nsis"
@@ -41,5 +44,6 @@
       ],
       "category": "AudioVideo"
     }
-  }
+  },
+  "author": "SyncWatch"
 }
