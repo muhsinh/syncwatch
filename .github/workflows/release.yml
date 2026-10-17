@@ -2,6 +2,8 @@ name: Build installers
 on:
   push:
     tags: ['v*']
+    branches: [main]
+    paths: ['.github/workflows/release.yml', 'scripts/**', 'package.json', 'desktop/**', 'shared/**']
   workflow_dispatch:
     inputs:
       version:
@@ -24,7 +26,9 @@ jobs:
       - name: Verify the app is at least ad-hoc signed (required on Apple Silicon)
         run: |
           for app in dist/mac-arm64/SyncWatch.app dist/mac/SyncWatch.app; do
-            [ -d "$app" ] && codesign --verify --deep --strict "$app" && codesign -dv "$app" 2>&1 | head -3
+            [ -d "$app" ] || continue
+            codesign --verify --deep --strict "$app"
+            codesign -dv "$app" 2>&1 | head -4
           done
       - uses: actions/upload-artifact@v4
         with: { name: SyncWatch-mac, path: dist/*.dmg }
@@ -32,7 +36,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*.dmg
-          tag_name: ${{ inputs.version || github.ref_name }}
-          name: SyncWatch ${{ inputs.version || github.ref_name }}
+          tag_name: ${{ inputs.version || (startsWith(github.ref, 'refs/tags/') && github.ref_name) || 'v0.1.0' }}
+          name: SyncWatch ${{ inputs.version || (startsWith(github.ref, 'refs/tags/') && github.ref_name) || 'v0.1.0' }}
           body: |
             Mac installers: **arm64** = Apple Silicon (M1/M2/M3/M4), **x64** = Intel. Unsigned: right-click the app and choose Open the first time.

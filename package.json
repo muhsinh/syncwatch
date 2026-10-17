@@ -31,7 +31,7 @@
     "mac": {
       "category": "public.app-category.entertainment",
       "target": "dmg",
-      "identity": "-",
+      "identity": null,
       "artifactName": "SyncWatch-${version}-${arch}.${ext}"
     },
     "win": {
@@ -43,7 +43,8 @@
         "deb"
       ],
       "category": "AudioVideo"
-    }
+    },
+    "afterPack": "scripts/ad-hoc-sign.js"
   },
   "author": "SyncWatch"
 }
