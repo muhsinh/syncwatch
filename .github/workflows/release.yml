@@ -3,6 +3,10 @@ on:
   push:
     tags: ['v*']
   workflow_dispatch:
+    inputs:
+      version:
+        description: Release tag to create (e.g. v0.1.0)
+        default: v0.1.0
 
 jobs:
   mac:
@@ -25,6 +29,10 @@ jobs:
       - uses: actions/upload-artifact@v4
         with: { name: SyncWatch-mac, path: dist/*.dmg }
       - name: Attach to release
-        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
-        with: { files: dist/*.dmg }
+        with:
+          files: dist/*.dmg
+          tag_name: ${{ inputs.version || github.ref_name }}
+          name: SyncWatch ${{ inputs.version || github.ref_name }}
+          body: |
+            Mac installers: **arm64** = Apple Silicon (M1/M2/M3/M4), **x64** = Intel. Unsigned: right-click the app and choose Open the first time.
