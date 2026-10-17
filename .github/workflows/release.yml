@@ -3,7 +3,7 @@ on:
   push:
     tags: ['v*']
     branches: [main]
-    paths: ['.github/workflows/release.yml', 'scripts/**', 'package.json', 'desktop/**', 'shared/**']
+    paths: ['.github/workflows/release.yml', 'scripts/**', 'package.json', 'desktop/**', 'shared/**', 'extension/**']
   workflow_dispatch:
     inputs:
       version:
@@ -30,13 +30,19 @@ jobs:
             codesign --verify --deep --strict "$app"
             codesign -dv "$app" 2>&1 | head -4
           done
+      - name: Zip the Chrome extension
+        run: node scripts/build-extension.js && (cd extension && zip -rq ../dist/SyncWatch-chrome-extension.zip .)
       - uses: actions/upload-artifact@v4
-        with: { name: SyncWatch-mac, path: dist/*.dmg }
+        with: { name: SyncWatch-mac, path: 'dist/*.dmg' }
       - name: Attach to release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/*.dmg
+          files: |
+            dist/*.dmg
+            dist/SyncWatch-chrome-extension.zip
           tag_name: ${{ inputs.version || (startsWith(github.ref, 'refs/tags/') && github.ref_name) || 'v0.1.0' }}
           name: SyncWatch ${{ inputs.version || (startsWith(github.ref, 'refs/tags/') && github.ref_name) || 'v0.1.0' }}
           body: |
+            **Chrome extension** (works on any site, keeps your own ad blocker): download `SyncWatch-chrome-extension.zip`, unzip it, open chrome://extensions, turn on Developer mode, click Load unpacked and pick the unzipped folder.
+
             Mac installers: **arm64** = Apple Silicon (M1/M2/M3/M4), **x64** = Intel. Unsigned: right-click the app and choose Open the first time.

@@ -1,0 +1,20 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+  :root { color-scheme: dark; --bg:#14151a; --panel:#1d1f27; --fg:#e8e9ee; --mut:#8b8fa0; --acc:#ff5d8f; }
+  body { margin:0; width:320px; background:var(--bg); color:var(--fg); font:13px system-ui,sans-serif; padding:12px; }
+  h1 { font-size:15px; margin:0 0 8px; }
+  input { width:100%; box-sizing:border-box; margin-bottom:6px; background:var(--panel); border:1px solid #2c2f3a; color:var(--fg); border-radius:6px; padding:7px 8px; font:inherit; }
+  button { width:100%; margin-top:4px; background:var(--panel); border:1px solid #2c2f3a; color:var(--fg); border-radius:6px; padding:8px; font:inherit; cursor:pointer; }
+  button.primary { background:var(--acc); border-color:var(--acc); color:#fff; font-weight:600; }
+  #status { color:var(--mut); margin:6px 0; } .hint { color:var(--mut); font-size:12px; margin-top:8px; }
+</style></head><body>
+  <h1>SyncWatch</h1>
+  <input id="server" placeholder="Server (wss://…)">
+  <input id="room" placeholder="Room code">
+  <input id="name" placeholder="Your name">
+  <button id="connect" class="primary">Connect</button>
+  <div id="status">Not connected</div>
+  <button id="sync">Sync this tab</button>
+  <div class="hint">1) Connect. 2) Open your movie / video / song in a tab. 3) Press “Sync this tab”. Your partner’s browser opens the same page and follows play, pause and seek.</div>
+  <script src="popup.js"></script>
+</body></html>

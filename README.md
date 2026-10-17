@@ -49,3 +49,11 @@ Build installers: `npm run dist` (run on each OS: .dmg, .exe, AppImage/.deb).
 ## Ad blocking (desktop app)
 
 The desktop app blocks ads and trackers using the same filter lists as Adblock Plus / uBlock Origin (EasyList, EasyPrivacy, uBO lists) via the Ghostery adblocker engine, network and cosmetic. Lists download on first launch and are cached; if offline the app runs unblocked. Pirate sites with anti-adblock walls or fresh popunder domains may still get through. Ads stitched into the video stream cannot be blocked by any blocker.
+
+## Chrome extension (any site, your own ad blocker)
+
+`extension/` is a Manifest V3 extension for Chrome, Edge, Brave and Arc. It runs the same sync engine inside your normal browser, so your own uBlock Origin / Adblock Plus, logins and bookmarks keep working.
+
+Install: download `SyncWatch-chrome-extension.zip` from Releases, unzip, open `chrome://extensions`, enable **Developer mode**, **Load unpacked**, choose the folder. Then click the toolbar icon: enter the server (`wss://…`) and room code, **Connect**, open the movie/video/song in a tab and press **Sync this tab**. Your partner's browser opens the same page automatically.
+
+Run `node scripts/build-extension.js` after editing `shared/` to refresh `extension/lib/`.

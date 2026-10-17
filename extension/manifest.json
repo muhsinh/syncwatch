@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "SyncWatch",
+  "version": "0.2.0",
+  "description": "Watch anything together: syncs play, pause and seek of the video or song in this tab with your partner.",
+  "permissions": ["storage", "tabs"],
+  "host_permissions": ["<all_urls>"],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_popup": "popup.html", "default_title": "SyncWatch" },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": true,
+      "match_about_blank": true,
+      "run_at": "document_start",
+      "js": ["lib/media-sync.js", "content.js"]
+    }
+  ]
+}
