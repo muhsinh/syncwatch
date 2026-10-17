@@ -2,6 +2,7 @@ const { app, BrowserWindow, WebContentsView, ipcMain, session } = require('elect
 const path = require('path');
 const fs = require('fs');
 const WebSocket = require('ws');
+const { ElectronBlocker } = require('@ghostery/adblocker-electron');
 const { createRoomClient } = require('../shared/room-client');
 
 const TOOLBAR_H = 96;
@@ -112,8 +113,29 @@ ipcMain.on('media:local', (_e, msg) => {
 ipcMain.on('media:ready', (e) => { if (lastState && e.senderFrame) e.senderFrame.send('media:remote', lastState); });
 ipcMain.on('media:blocked', () => toShell('toast', 'Playback was blocked — click the video once to join in'));
 
+// Ad blocker: same filter lists as Adblock Plus / uBlock Origin (EasyList, EasyPrivacy, uBO lists), network + cosmetic.
+// Lists are fetched once and cached; if offline the app simply runs unblocked.
+async function enableAdBlock(ses) {
+  try {
+    const cache = path.join(app.getPath('userData'), 'adblock-engine.bin');
+    const blocker = await ElectronBlocker.fromPrebuiltAdsAndTracking(fetch, {
+      path: cache,
+      read: fs.promises.readFile,
+      write: fs.promises.writeFile,
+    });
+    blocker.enableBlockingInSession(ses);
+    blocker.on('request-blocked', () => { blocked++; toShell('blocked', blocked); });
+    toShell('toast', 'Ad blocker on');
+  } catch (e) {
+    toShell('toast', 'Ad blocker unavailable (offline?) — continuing without it');
+  }
+}
+let blocked = 0;
+
 app.whenReady().then(() => {
-  session.fromPartition(PARTITION).setPermissionRequestHandler((_wc, _perm, cb) => cb(false));
+  const ses = session.fromPartition(PARTITION);
+  ses.setPermissionRequestHandler((_wc, _perm, cb) => cb(false));
   createWindow();
+  enableAdBlock(ses);
 });
 app.on('window-all-closed', () => app.quit());

@@ -45,3 +45,7 @@ Build installers: `npm run dist` (run on each OS: .dmg, .exe, AppImage/.deb).
 * Both of you need access to the content (same site/account/region); only control state is shared, never the video.
 * Partner navigation is followed automatically; only share a room with someone you trust. Popups are blocked.
 * The relay has no auth beyond the room code: use a long unguessable code.
+
+## Ad blocking (desktop app)
+
+The desktop app blocks ads and trackers using the same filter lists as Adblock Plus / uBlock Origin (EasyList, EasyPrivacy, uBO lists) via the Ghostery adblocker engine, network and cosmetic. Lists download on first launch and are cached; if offline the app runs unblocked. Pirate sites with anti-adblock walls or fresh popunder domains may still get through. Ads stitched into the video stream cannot be blocked by any blocker.

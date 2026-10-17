@@ -15,13 +15,13 @@
   #url { flex:1; }
   #dot { width:10px; height:10px; border-radius:50%; background:#666; flex:none; }
   #dot.connected { background:#3ddc84; } #dot.connecting,#dot.reconnecting { background:#f5b942; }
-  #status { color:var(--mut); white-space:nowrap; }
+  #status, #blocked { color:var(--mut); white-space:nowrap; }
   #toast { position:fixed; right:10px; top:6px; background:var(--acc); color:#fff; padding:6px 10px; border-radius:6px; display:none; }
   .quick button { padding:4px 8px; color:var(--mut); }
 </style></head>
 <body>
   <div class="row">
-    <span id="dot"></span><span id="status">Not connected</span>
+    <span id="dot"></span><span id="status">Not connected</span><span id="blocked" title="Ads and trackers blocked this session"></span>
     <input id="server" placeholder="Relay server (wss://…)" size="26">
     <input id="room" placeholder="Room code" size="12">
     <input id="name" placeholder="Your name" size="9">
